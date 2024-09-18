@@ -4,22 +4,31 @@ export const userDataSelect = {
   username: true,
   avatarUrl: true,
   displayName: true,
+  bio:true,
+  createdAt:true,
   id: true,
 } satisfies Prisma.UserSelect;
+
+export type UserData = Prisma.UserGetPayload<{
+  select:ReturnType <typeof getUserDataSelect>
+}>
 
 export function getUserDataSelect(loggedInUserId: string) {
   return {
     username: true,
     avatarUrl: true,
     displayName: true,
+    createdAt: true,
     id: true,
+    bio: true,
+
     followers: {
       where: { followerId: loggedInUserId },
       select: {
         followerId: true,
       },
     },
-    _count: { select: { followers: true } },
+    _count: { select: { followers: true, posts: true } },
   } satisfies Prisma.UserSelect;
 }
 
