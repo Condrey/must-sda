@@ -1,7 +1,7 @@
 import PostEditor from "@/components/posts/editor/post-editor";
 import TrendsSidebar from "@/components/trends-sidebar";
 import ForYouFeeds from "./for-you-feeds";
-import { Tabs, TabsList,TabsTrigger,TabsContent, } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import FollowingFeeds from "./following-feed";
 
 export default function Home() {

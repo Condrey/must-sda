@@ -1,5 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { BellIcon, HomeIcon,MessageCircleIcon,BookmarkIcon } from "lucide-react";
+import {
+  BellIcon,
+  HomeIcon,
+  MessageCircleIcon,
+  BookmarkIcon,
+} from "lucide-react";
 import Link from "next/link";
 
 interface MenuBarProps {

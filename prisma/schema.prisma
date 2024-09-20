@@ -25,11 +25,13 @@ model User {
   avatarUrl    String?
   bio          String?
   sessions     Session[]
-   posts        Post[]
-  following    Follow[] @relation("Following")
-  followers     Follow[] @relation("Followers")
+  posts        Post[]
+  followings   Follow[]   @relation("Following")
+  followers    Follow[]   @relation("Followers")
   createdAt    DateTime   @default(now())
- 
+  likes        Like[]
+  bookmarks    Bookmark[]
+  comments     Comment[]
 
   @@map("users")
 }
@@ -45,19 +47,74 @@ model Session {
 
 model Follow {
   followerId  String
-  follower    User   @relation("Following", fields: [followerId], references: [id],onDelete: Cascade)
+  follower    User   @relation("Following", fields: [followerId], references: [id], onDelete: Cascade)
   followingId String
-  following   User   @relation("Followers",fields: [followingId], references: [id],onDelete: Cascade)
-  @@unique([followerId,followingId])
+  following   User   @relation("Followers", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
   @@map("follows")
 }
 
 model Post {
+  id          String     @id @default(cuid())
+  content     String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt   DateTime   @default(now())
+  userId      String
+  attachments Media[]
+  likes       Like[]
+  bookmarks   Bookmark[]
+  comments    Comment[]
+
+  @@map("posts")
+}
+
+model Media {
+  id        String    @id @default(cuid())
+  post      Post?     @relation(fields: [postId], references: [id], onDelete: SetNull)
+  postId    String?
+  type      MediaType
+  url       String
+  createdAt DateTime  @default(now())
+
+  @@map("post_media")
+}
+
+enum MediaType {
+  IMAGE
+  VIDEO
+}
+
+model Comment {
   id        String   @id @default(cuid())
   content   String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   userId    String
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
 
-  @@map("posts")
+  @@map("comments")
+}
+
+model Like {
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId String
+  postId String
+
+  @@unique([userId, postId])
+  @@map("likes")
+}
+
+model Bookmark {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId    String
+  postId    String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, postId])
+  @@map("bookmarks")
 }

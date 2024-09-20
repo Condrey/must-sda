@@ -1,4 +1,5 @@
 import z from "zod";
+import { MAX_ATTACHMENTS } from "./utils";
 
 const requiredString = z.string().trim();
 
@@ -19,8 +20,10 @@ export const signUpSchema = z.object({
 export type SignUpValues = z.infer<typeof signUpSchema>;
 
 export const loginSchema = z.object({
-  username: requiredString
-    .min(1, "Please input your username that you registered with."),
+  username: requiredString.min(
+    1,
+    "Please input your username that you registered with.",
+  ),
   password: requiredString
     .min(1, "Password is required to login")
     .describe("Password that you registered with."),
@@ -29,9 +32,21 @@ export const loginSchema = z.object({
 export type LoginValues = z.infer<typeof loginSchema>;
 
 export const createPostSchema = z.object({
-  content: requiredString.min(
-    1,
-    "Content for the post is required",
-  ),
-  });
+  content: requiredString.min(1, "Content for the post is required"),
+  mediaIds: z
+    .array(z.string())
+    .max(
+      MAX_ATTACHMENTS,
+      `Can not have more than ${MAX_ATTACHMENTS} attachments`,
+    ),
+});
 
+export const updateUserProfileSchema = z.object({
+  displayName: requiredString.min(1, "Display name can not be empty"),
+  bio: requiredString.max(1000, "Must be at most 1000 characters"),
+});
+export type UpdateUserProfileValues = z.infer<typeof updateUserProfileSchema>;
+
+export const createCommentSchema = z.object({
+  content: requiredString.min(1, "Comment is required"),
+});

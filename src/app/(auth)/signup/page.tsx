@@ -14,15 +14,16 @@ export default function Page() {
         <div className="w-full space-y-10 overflow-y-auto p-10 md:w-1/2">
           <div className="space-y-1 text-center">
             <h1 className="text-3xl font-bold">{`Sign into ${webName}`}</h1>
-            <p className="text-muted-foreground">A place <span className="italic">you</span> can call home.</p>
+            <p className="text-muted-foreground">
+              A place <span className="italic">you</span> can call home.
+            </p>
           </div>
           <div className="space-y-5">
-            <SignUpForm/>
-            <Link href={`/login`} className="block hover:underline text-center ">
-            Already have an account? Login
+            <SignUpForm />
+            <Link href={`/login`} className="block text-center hover:underline">
+              Already have an account? Login
             </Link>
           </div>
-    
         </div>
         <Image
           src={SignUpImage}

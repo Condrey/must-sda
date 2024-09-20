@@ -30,13 +30,15 @@ export default function ForYouFeeds() {
   const posts = data?.pages.flatMap((page) => page.posts) || [];
 
   if (status === "pending") {
-    return <PostsLoadingSkeleton/>;
+    return <PostsLoadingSkeleton />;
   }
 
-  if (status==="success" && !posts.length && !hasNextPage){
-    return <p className="text-center text-muted-foreground">
+  if (status === "success" && !posts.length && !hasNextPage) {
+    return (
+      <p className="text-center text-muted-foreground">
         No one has posted anything yet
-    </p>
+      </p>
+    );
   }
 
   if (status === "error") {

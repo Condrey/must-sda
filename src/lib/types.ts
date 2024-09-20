@@ -4,14 +4,14 @@ export const userDataSelect = {
   username: true,
   avatarUrl: true,
   displayName: true,
-  bio:true,
-  createdAt:true,
+  bio: true,
+  createdAt: true,
   id: true,
 } satisfies Prisma.UserSelect;
 
 export type UserData = Prisma.UserGetPayload<{
-  select:ReturnType <typeof getUserDataSelect>
-}>
+  select: ReturnType<typeof getUserDataSelect>;
+}>;
 
 export function getUserDataSelect(loggedInUserId: string) {
   return {
@@ -37,6 +37,22 @@ export function getPostDataInclude(loggedInUserId: string) {
     user: {
       select: getUserDataSelect(loggedInUserId),
     },
+    attachments: true,
+    likes: {
+      where: {
+        userId: loggedInUserId,
+      },
+      select: { userId: true },
+    },
+    bookmarks: {
+      where: {
+        userId: loggedInUserId,
+      },
+      select: { userId: true },
+    },
+    _count: {
+      select: { likes: true, comments: true },
+    },
   } satisfies Prisma.PostInclude;
 }
 
@@ -49,7 +65,33 @@ export interface PostsPage {
   nextCursor: string | null;
 }
 
+export function getCommentDataInclude(loggedInUserId: string) {
+  return {
+    user: {
+      select: getUserDataSelect(loggedInUserId),
+    },
+  } satisfies Prisma.CommentInclude;
+}
+
+export type CommentData = Prisma.CommentGetPayload<{
+  include: ReturnType<typeof getCommentDataInclude>;
+}>;
+
+export interface CommentsPage {
+  comments: CommentData[];
+  previousCursor: string | null;
+}
+
 export interface FollowerInfo {
   followersCount: number;
   isFollowingByUser: boolean;
+}
+
+export interface LikesInfo {
+  likesCount: number;
+  isLikedByUser: boolean;
+}
+
+export interface BookmarkInfo {
+  isBookmarkedByUser: boolean;
 }

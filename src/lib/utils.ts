@@ -1,11 +1,14 @@
 import { clsx, type ClassValue } from "clsx";
 import { formatDate, formatDistanceToNowStrict } from "date-fns";
-import { twMerge } from "tailwind-merge"; 
+import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 export const webName = "MUST-SDA";
+
+export const MAX_ATTACHMENTS = 5;
+
 
 export function formatRelativeDate(from: Date) {
   const currentDate = new Date();
@@ -20,9 +23,9 @@ export function formatRelativeDate(from: Date) {
   }
 }
 
-export function formatNumber(n:number):string{
-  return Intl.NumberFormat("en-US",{
-    notation:'compact',
-    maximumFractionDigits:1
-  }).format(n)
+export function formatNumber(n: number): string {
+  return Intl.NumberFormat("en-US", {
+    notation: "compact",
+    maximumFractionDigits: 1,
+  }).format(n);
 }
