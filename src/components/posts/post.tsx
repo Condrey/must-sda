@@ -141,7 +141,9 @@ function MediaPreview({ media }: MediaPreviewProps) {
       </div>
     );
   }
-  return <p className="text-destructive">Unsupported media type</p>;
+  return (
+    <p className="bg-background text-destructive">Unsupported media type</p>
+  );
 }
 
 interface CommentButtonProps {
