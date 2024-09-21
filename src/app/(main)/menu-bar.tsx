@@ -1,13 +1,10 @@
 import { validateRequest } from "@/auth";
 import { Button } from "@/components/ui/button";
 import prisma from "@/lib/prisma";
-import {
-  BellIcon,
-  HomeIcon,
-  MessageCircleIcon,
-  BookmarkIcon,
-} from "lucide-react";
+import streamServerClient from "@/lib/stream";
+import { BookmarkIcon, HomeIcon } from "lucide-react";
 import Link from "next/link";
+import MessagesButton from "./messages-button";
 import NotificationsButton from "./notifications-button";
 
 interface MenuBarProps {
@@ -15,17 +12,21 @@ interface MenuBarProps {
 }
 
 export default async function MenuBar({ className }: MenuBarProps) {
-  const {user} = await validateRequest()
+  const { user } = await validateRequest();
 
-  if (!user) return null
+  if (!user) return null;
 
-  const unreadNotificationCount = await prisma.notification.count({
-    where:{
-      recipientId:user.id,
-      read:false,
-    }
-  })
-  
+  const [unreadNotificationCount, unreadMessagesCount] = await Promise.all([
+    prisma.notification.count({
+      where: {
+        recipientId: user.id,
+        read: false,
+      },
+    }),
+
+    (await streamServerClient.getUnreadCount(user.id)).total_unread_count,
+  ]);
+
   return (
     <div className={className}>
       <Button
@@ -39,20 +40,13 @@ export default async function MenuBar({ className }: MenuBarProps) {
           <span className="hidden lg:inline">Home</span>
         </Link>
       </Button>
-        
-        <NotificationsButton initialState={({unreadCount:unreadNotificationCount})}/>
 
-      <Button
-        variant={"ghost"}
-        className="flex items-center justify-start gap-3"
-        title="Messages"
-        asChild
-      >
-        <Link href={"/messages"}>
-          <MessageCircleIcon />
-          <span className="hidden lg:inline">Messages</span>
-        </Link>
-      </Button>
+      <NotificationsButton
+        initialState={{ unreadCount: unreadNotificationCount }}
+      />
+
+      <MessagesButton initialState={{ unreadCount: unreadMessagesCount }} />
+
       <Button
         variant={"ghost"}
         className="flex items-center justify-start gap-3"
