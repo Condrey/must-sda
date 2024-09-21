@@ -4,6 +4,7 @@ import { cn, formatRelativeDate, webName } from "@/lib/utils";
 import { NotificationType } from "@prisma/client";
 import {
   ChurchIcon,
+  DotIcon,
   HeartIcon,
   MessageCircleIcon,
   User2Icon,
@@ -21,22 +22,22 @@ export default function Notification({ notification }: NotificationProps) {
   > = {
     FOLLOW: {
       message: `${notification.issuer.displayName} followed you.`,
-      icon: <User2Icon className="size-7 text-primary" />,
+      icon: <User2Icon className="size-5 text-primary" />,
       href: `/users/${notification.issuer.username}`,
     },
     COMMENT: {
       message: `${notification.issuer.displayName} commented on your post.`,
-      icon: <MessageCircleIcon className="size-7 fill-primary text-primary" />,
+      icon: <MessageCircleIcon className="size-5 fill-primary text-primary" />,
       href: `/posts/${notification.postId}`,
     },
     LIKE: {
       message: `${notification.issuer.displayName} liked your post.`,
-      icon: <HeartIcon className="size-7 fill-red-500 text-red-500" />,
+      icon: <HeartIcon className="size-5 fill-red-500 text-red-500" />,
       href: `/posts/${notification.postId}`,
     },
     SYSTEM: {
       message: webName,
-      icon: <ChurchIcon className="size-7 text-primary" />,
+      icon: <ChurchIcon className="size-5 text-primary" />,
       href: `/notifications/system/${notification.postId}`,
     },
   };
@@ -50,25 +51,26 @@ export default function Notification({ notification }: NotificationProps) {
           !notification.read && "bg-primary/10",
         )}
       >
-        <div className="my-1">{icon}</div>
-        <div className="space-y-3">
+        <UserAvatar avatarUrl={notification.issuer.avatarUrl} size={36} />
 
-          <div className="flex gap-3 items-center">
-            <UserAvatar avatarUrl={notification.issuer.avatarUrl} size={36} />
-            <div className="*:block ">
-              <span className="font-bold">
+        <div className="space-y-2">
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex gap-0 flex-none items-center">
+              <div className="my-1">{icon}</div>
+              <DotIcon className="size-4" />
+              <span className="line-clamp-1 break-all font-bold">
                 {notification.issuer.displayName}
               </span>
-              <span className="text-muted-foreground">
-                {formatRelativeDate(notification.createdAt)}
-              </span>
             </div>
+            <span className="text-sm text-muted-foreground">
+              {formatRelativeDate(notification.createdAt)}
+            </span>
           </div>
 
           <div>{message}</div>
 
           {notification.post && (
-            <div className="line-clamp-3 whitespace-pre-line text-muted-foreground">
+            <div className="line-clamp-4 whitespace-pre-line text-muted-foreground">
               {notification.post.content}
             </div>
           )}

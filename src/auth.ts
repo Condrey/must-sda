@@ -31,8 +31,8 @@ declare module "lucia" {
 }
 interface DatabaseUserAttributes {
   id: string;
-  username: String;
-  displayName: String;
+  username: string;
+  displayName: string;
   avatarUrl: string | null;
   googleId: string | null;
 }
