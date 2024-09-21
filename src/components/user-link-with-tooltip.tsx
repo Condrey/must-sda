@@ -1,3 +1,5 @@
+"use client";
+
 import kyInstance from "@/lib/ky";
 import { UserData } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
@@ -11,8 +13,8 @@ interface UserLinkWithTooltipProps extends PropsWithChildren {
 }
 
 export default function UserLinkWithTooltip({
-  username,
   children,
+  username,
 }: UserLinkWithTooltipProps) {
   const { data } = useQuery({
     queryKey: ["user-data", username],
@@ -26,6 +28,7 @@ export default function UserLinkWithTooltip({
     },
     staleTime: Infinity,
   });
+
   if (!data) {
     return (
       <Link
@@ -36,6 +39,7 @@ export default function UserLinkWithTooltip({
       </Link>
     );
   }
+
   return (
     <UserTooltip user={data}>
       <Link
