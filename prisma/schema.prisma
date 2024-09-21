@@ -28,10 +28,13 @@ model User {
   posts        Post[]
   followings   Follow[]   @relation("Following")
   followers    Follow[]   @relation("Followers")
-  createdAt    DateTime   @default(now())
   likes        Like[]
   bookmarks    Bookmark[]
   comments     Comment[]
+
+  createdAt             DateTime       @default(now())
+  receivedNotifications Notification[] @relation("Recipient")
+  issuedNotifications   Notification[] @relation("Issuer")
 
   @@map("users")
 }
@@ -56,15 +59,16 @@ model Follow {
 }
 
 model Post {
-  id          String     @id @default(cuid())
-  content     String
-  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt   DateTime   @default(now())
-  userId      String
-  attachments Media[]
-  likes       Like[]
-  bookmarks   Bookmark[]
-  comments    Comment[]
+  id                  String         @id @default(cuid())
+  content             String
+  user                User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt           DateTime       @default(now())
+  userId              String
+  attachments         Media[]
+  likes               Like[]
+  bookmarks           Bookmark[]
+  comments            Comment[]
+  linkedNotifications Notification[]
 
   @@map("posts")
 }
@@ -117,4 +121,27 @@ model Bookmark {
 
   @@unique([userId, postId])
   @@map("bookmarks")
+}
+
+model Notification {
+  id          String           @id @default(cuid())
+  recipientId String
+  recipient   User             @relation("Recipient", fields: [recipientId], references: [id], onDelete: Cascade)
+  issuerId    String
+  issuer      User             @relation("Issuer", fields: [issuerId], references: [id], onDelete: Cascade)
+  post        Post?            @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId      String?
+  type        NotificationType
+  read        Boolean          @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@map("notifications")
+}
+
+enum NotificationType {
+  LIKE
+  FOLLOW
+  COMMENT
+  SYSTEM
 }

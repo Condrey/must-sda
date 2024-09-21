@@ -4,6 +4,7 @@ import { formatRelativeDate } from "@/lib/utils";
 import Link from "next/link";
 import UserAvatar from "../user-avatar";
 import UserTooltip from "../user-tooltip";
+import CommentMoreButton from "./comment-more-button";
 
 interface CommentProps {
   comment: CommentData;
@@ -14,7 +15,7 @@ export default function Comment({ comment }: CommentProps) {
 
   return (
     <div className="group/comment flex gap-3 py-3">
-      <span className="hidden sm:inline">
+      <span className="hidden sm:inline flex-none ">
         <UserTooltip user={comment.user}>
           <Link href={`/users/${comment.user.username}`}>
             <UserAvatar avatarUrl={comment.user.avatarUrl} size={40} />
@@ -26,7 +27,7 @@ export default function Comment({ comment }: CommentProps) {
           <UserTooltip user={comment.user}>
             <Link
               href={`/users/${comment.user.username}`}
-              className="font-medium hover:underline"
+              className="font-medium hover:underline text-accent-foreground"
             >
               {comment.user.displayName}
             </Link>
@@ -37,12 +38,12 @@ export default function Comment({ comment }: CommentProps) {
         </div>
         <div>{comment.content}</div>
       </div>
-      {/* {comment.user.id === user.id && (
+      {comment.user.id === user.id && (
         <CommentMoreButton
           comment={comment}
           className="ms-auto opacity-0 transition-opacity group-hover/comment:opacity-100"
         />
-      )} */}
+      )}
     </div>
   );
 }
