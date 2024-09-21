@@ -15,14 +15,14 @@ export default function Chat() {
   const { resolvedTheme } = useTheme();
 
   const [openSideBar, setOpenSideBar] = useState(false);
-  const [openChannel, setOpenChannel] = useState(false);
   if (!chatClient) {
     return <Loader2 className="mx-auto my-3 animate-spin" />;
   }
 
   return (
-    <main className="relative overflow-hidden rounded-2xl bg-card shadow-sm">
+    <main className="relative w-full overflow-hidden rounded-2xl bg-card shadow-sm">
       <div className="absolute bottom-0 top-0 flex w-full">
+
         <StreamChatComponent
           client={chatClient}
           theme={
@@ -37,7 +37,7 @@ export default function Chat() {
           />
           <ChatChannel
             open={!openSideBar}
-            openSideBar={() => setOpenSideBar(true)}
+            openSidebar={() => setOpenSideBar(true)}
           />
         </StreamChatComponent>
       </div>

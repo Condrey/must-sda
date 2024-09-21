@@ -1,3 +1,5 @@
+export const maxDuration = 60;
+
 import { validateRequest } from "@/auth";
 import streamServerClient from "@/lib/stream";
 
@@ -10,11 +12,9 @@ export async function GET() {
       loggedInUser?.id,
     );
 
-
-      if (!loggedInUser) {
-        return Response.json({ error: "Unauthorized" }, { status: 401 });
-      }
-    
+    if (!loggedInUser) {
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
     //Make token valid for an hour, then it refreshes again.
     // Stream takes care of refreshing, just  give expiration time
@@ -27,13 +27,12 @@ export async function GET() {
     // Create the token itself
     // we need a streamClient instance, (@/lib/stream file)
     const token = streamServerClient.createToken(
-        loggedInUser.id,
-        expirationTime,
-        issuedAt
-    )
+      loggedInUser.id,
+      expirationTime,
+      issuedAt,
+    );
 
-    return Response.json({token})
-
+    return Response.json({ token });
   } catch (error) {
     console.error(error);
     return Response.json({ error: "Internal server error" }, { status: 500 });
