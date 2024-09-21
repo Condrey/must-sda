@@ -1,6 +1,6 @@
 import UserAvatar from "@/components/user-avatar";
 import { NotificationData } from "@/lib/types";
-import { cn, webName } from "@/lib/utils";
+import { cn, formatRelativeDate, webName } from "@/lib/utils";
 import { NotificationType } from "@prisma/client";
 import {
   ChurchIcon,
@@ -25,12 +25,12 @@ export default function Notification({ notification }: NotificationProps) {
       href: `/users/${notification.issuer.username}`,
     },
     COMMENT: {
-      message: `${notification.issuer.displayName} commented ony your post.`,
-      icon: <MessageCircleIcon className="size-7 text-primary fill-primary" />,
+      message: `${notification.issuer.displayName} commented on your post.`,
+      icon: <MessageCircleIcon className="size-7 fill-primary text-primary" />,
       href: `/posts/${notification.postId}`,
     },
     LIKE: {
-      message: `${notification.issuer.displayName} commented ony your post.`,
+      message: `${notification.issuer.displayName} liked your post.`,
       icon: <HeartIcon className="size-7 fill-red-500 text-red-500" />,
       href: `/posts/${notification.postId}`,
     },
@@ -46,18 +46,27 @@ export default function Notification({ notification }: NotificationProps) {
     <Link href={href} className="block">
       <article
         className={cn(
-          "flex gap-3 rounded-3xl bg-card p-5 shadow-sm transition-colors hover:bg-card/70",
+          "flex gap-3 rounded-2xl bg-card p-5 shadow-sm transition-colors hover:bg-card/70",
           !notification.read && "bg-primary/10",
         )}
       >
         <div className="my-1">{icon}</div>
         <div className="space-y-3">
-          <UserAvatar avatarUrl={notification.issuer.avatarUrl} size={36} />
-          <div>
-            <span className="font-bold">{notification.issuer.displayName}</span>
-            {" "}
-            <span>{message}</span>
+
+          <div className="flex gap-3 items-center">
+            <UserAvatar avatarUrl={notification.issuer.avatarUrl} size={36} />
+            <div className="*:block ">
+              <span className="font-bold">
+                {notification.issuer.displayName}
+              </span>
+              <span className="text-muted-foreground">
+                {formatRelativeDate(notification.createdAt)}
+              </span>
+            </div>
           </div>
+
+          <div>{message}</div>
+
           {notification.post && (
             <div className="line-clamp-3 whitespace-pre-line text-muted-foreground">
               {notification.post.content}
