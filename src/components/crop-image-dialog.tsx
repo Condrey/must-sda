@@ -41,9 +41,7 @@ export default function CropImageDialog({
           <Button variant="secondary" onClick={onClose}>
             Cancel
           </Button>
-          <Button onClick={crop}>
-            Crop
-          </Button>
+          <Button onClick={crop}>Crop</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

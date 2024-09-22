@@ -57,8 +57,6 @@ export default function UseMediaUploads() {
     },
   });
 
-
-
   function handleStartUpload(files: File[]) {
     if (isUploading) {
       toast({
@@ -81,17 +79,17 @@ export default function UseMediaUploads() {
     setAttachments((prev) => prev.filter((a) => a.file.name !== fileName));
   }
 
-  function reset(){
-    setAttachments([])
-    setUploadProgress(undefined)   
+  function reset() {
+    setAttachments([]);
+    setUploadProgress(undefined);
   }
 
-   return {
-     startUpload: handleStartUpload,
-     attachments,
-     isUploading,
-     uploadProgress,
-     removeAttachment,
-     reset,
-   };
+  return {
+    startUpload: handleStartUpload,
+    attachments,
+    isUploading,
+    uploadProgress,
+    removeAttachment,
+    reset,
+  };
 }

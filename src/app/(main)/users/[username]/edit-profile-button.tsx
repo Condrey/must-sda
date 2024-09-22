@@ -16,7 +16,11 @@ export default function EditProfileButton({ user }: EditProfileButtonProps) {
       <Button variant={"outline"} onClick={() => setShowDialog(true)}>
         Edit profile
       </Button>
-      <EditProfileDialog user={user} open={showDialog} openChange={setShowDialog}/>
+      <EditProfileDialog
+        user={user}
+        open={showDialog}
+        openChange={setShowDialog}
+      />
     </>
   );
 }

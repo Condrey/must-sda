@@ -42,15 +42,14 @@ export default function Notifications() {
       });
     },
     onError(error) {
-      console.error('Failed to map notifications as read')
+      console.error("Failed to map notifications as read");
     },
   });
 
-
   // Make notifications be marked immediately
   useEffect(() => {
-    mutate()
-  }, [mutate])
+    mutate();
+  }, [mutate]);
 
   const notifications = data?.pages.flatMap((page) => page.notifications) || [];
 

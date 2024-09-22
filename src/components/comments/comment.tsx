@@ -15,7 +15,7 @@ export default function Comment({ comment }: CommentProps) {
 
   return (
     <div className="group/comment flex gap-3 py-3">
-      <span className="hidden sm:inline flex-none ">
+      <span className="hidden flex-none sm:inline">
         <UserTooltip user={comment.user}>
           <Link href={`/users/${comment.user.username}`}>
             <UserAvatar avatarUrl={comment.user.avatarUrl} size={40} />
@@ -27,7 +27,7 @@ export default function Comment({ comment }: CommentProps) {
           <UserTooltip user={comment.user}>
             <Link
               href={`/users/${comment.user.username}`}
-              className="font-medium hover:underline text-accent-foreground"
+              className="font-medium text-accent-foreground hover:underline"
             >
               {comment.user.displayName}
             </Link>

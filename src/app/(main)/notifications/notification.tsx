@@ -55,7 +55,7 @@ export default function Notification({ notification }: NotificationProps) {
 
         <div className="space-y-2">
           <div className="flex flex-wrap items-center gap-3">
-            <div className="flex gap-0 flex-none items-center">
+            <div className="flex flex-none items-center gap-0">
               <div className="my-1">{icon}</div>
               <DotIcon className="size-4" />
               <span className="line-clamp-1 break-all font-bold">

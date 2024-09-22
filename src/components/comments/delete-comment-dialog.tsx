@@ -34,8 +34,8 @@ export default function DeleteCommentDialog({
         <DialogHeader>
           <DialogTitle>Delete Comment</DialogTitle>
           <DialogDescription>
-            Are you sure you would like to delete this comment. This action can not
-            be undone.
+            Are you sure you would like to delete this comment. This action can
+            not be undone.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>

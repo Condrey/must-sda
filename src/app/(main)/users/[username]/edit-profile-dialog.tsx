@@ -30,8 +30,8 @@ import { useForm } from "react-hook-form";
 import { useUpdateProfileMutation } from "./mutation";
 import { CameraIcon } from "lucide-react";
 import CropImageDialog from "@/components/crop-image-dialog";
-import FileResizer from 'react-image-file-resizer'
-import "cropperjs/dist/cropper.css"
+import FileResizer from "react-image-file-resizer";
+import "cropperjs/dist/cropper.css";
 
 interface EditProfileDialogProps {
   user: UserData;
@@ -56,15 +56,15 @@ export default function EditProfileDialog({
   const [croppedAvatar, setCroppedAvatar] = useState<Blob | null>(null);
 
   async function onSubmit(values: UpdateUserProfileValues) {
-const newAvatarFile = croppedAvatar?
-new File([croppedAvatar],`avatar_${user.id}.webp`)
-:undefined 
+    const newAvatarFile = croppedAvatar
+      ? new File([croppedAvatar], `avatar_${user.id}.webp`)
+      : undefined;
 
     mutation.mutate(
-      { values ,avatar:newAvatarFile},
+      { values, avatar: newAvatarFile },
       {
         onSuccess: () => {
-            setCroppedAvatar(null)
+          setCroppedAvatar(null);
           openChange(false);
         },
       },
@@ -78,7 +78,7 @@ new File([croppedAvatar],`avatar_${user.id}.webp`)
           <DialogTitle>Edit Profile</DialogTitle>
         </DialogHeader>
 
-        <div className="space-y-1.5 mx-auto *:text-center flex flex-col items-center">
+        <div className="mx-auto flex flex-col items-center space-y-1.5 *:text-center">
           <Label>Avatar</Label>
           <AvatarInput
             src={
@@ -148,15 +148,15 @@ function AvatarInput({ src, onImageCropped }: AvatarInputProps) {
     if (!image) return;
 
     FileResizer.imageFileResizer(
-        image,
-        1024,
-        1024,
-        "WEBP",
-        100,
-        0,
-        (url)=> setImageToCrop(url as File),
-        "file"
-    )
+      image,
+      1024,
+      1024,
+      "WEBP",
+      100,
+      0,
+      (url) => setImageToCrop(url as File),
+      "file",
+    );
   }
 
   return (
@@ -186,16 +186,16 @@ function AvatarInput({ src, onImageCropped }: AvatarInputProps) {
       </button>
 
       {imageToCrop && (
-        <CropImageDialog 
-        src={URL.createObjectURL(imageToCrop)} 
-        cropAspectRatio={1}
-        onCropped={onImageCropped}
-        onClose={()=>{
-            setImageToCrop(undefined)
-            if (fileInputRef.current){
-                fileInputRef.current.value="";
+        <CropImageDialog
+          src={URL.createObjectURL(imageToCrop)}
+          cropAspectRatio={1}
+          onCropped={onImageCropped}
+          onClose={() => {
+            setImageToCrop(undefined);
+            if (fileInputRef.current) {
+              fileInputRef.current.value = "";
             }
-        }}        
+          }}
         />
       )}
     </>
