@@ -9,7 +9,6 @@ export const webName = "MUST-SDA";
 
 export const MAX_ATTACHMENTS = 5;
 
-
 export function formatRelativeDate(from: Date) {
   const currentDate = new Date();
   if (currentDate.getTime() - from.getTime() < 24 * 60 * 60 * 1000) {
@@ -28,4 +27,11 @@ export function formatNumber(n: number): string {
     notation: "compact",
     maximumFractionDigits: 1,
   }).format(n);
+}
+
+export function slugify(input: string): string {
+  return input
+    .toLocaleLowerCase()
+    .replace(/ /g, "-")
+    .replace(/[^a-z0-9]/g, "");
 }
