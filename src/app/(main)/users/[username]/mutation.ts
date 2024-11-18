@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 import { updateUserProfile } from "./actions";
 
 export function useUpdateProfileMutation() {
-  const {} = useToast();
+  const {toast} = useToast();
   const router = useRouter();
   const queryClient = useQueryClient();
 

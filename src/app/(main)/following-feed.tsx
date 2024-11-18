@@ -15,7 +15,7 @@ export default function FollowingFeeds() {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-    status,
+    status,error
   } = useInfiniteQuery({
     queryKey: ["post-feed", "following"],
     queryFn: ({ pageParam }) =>
@@ -42,6 +42,7 @@ export default function FollowingFeeds() {
   }
 
   if (status === "error") {
+    console.error(error)
     return (
       <p className="text-center text-destructive">
         An error occurred while loading posts

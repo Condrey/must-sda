@@ -4,7 +4,7 @@ import { useSession } from "@/app/(main)/session-provider";
 import LoadingButton from "@/components/loading-button";
 import { Button } from "@/components/ui/button";
 import UserAvatar from "@/components/user-avatar";
-import { cn } from "@/lib/utils";
+import { cn, MAX_ATTACHMENTS } from "@/lib/utils";
 import Placeholder from "@tiptap/extension-placeholder";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -109,7 +109,7 @@ export default function PostEditor() {
         )}
         <AddAttachmentButton
           onFilesSelected={startUpload}
-          disabled={isUploading || attachments.length >= 5}
+          disabled={isUploading || attachments.length >= MAX_ATTACHMENTS}
         />
 
         <LoadingButton

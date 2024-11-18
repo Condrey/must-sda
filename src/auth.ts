@@ -1,9 +1,9 @@
 import { PrismaAdapter } from "@lucia-auth/adapter-prisma";
+import { Google } from "arctic";
 import { Lucia, Session, User } from "lucia";
 import { cookies } from "next/headers";
 import { cache } from "react";
 import prisma from "./lib/prisma";
-import { Google } from "arctic";
 
 const adapter = new PrismaAdapter(prisma.session, prisma.user);
 export const lucia = new Lucia(adapter, {
@@ -74,6 +74,7 @@ export const validateRequest = cache(
         );
       }
     } catch {}
+
     return result;
   },
 );
